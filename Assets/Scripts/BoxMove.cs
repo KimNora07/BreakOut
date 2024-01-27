@@ -5,8 +5,9 @@ using UnityEngine;
 public class BoxMove : MonoBehaviour
 {
     private Rigidbody2D rb;
-    float moveSpeed = 15.0f;
-    Vector3 moveVelocity;
+    public float moveSpeed;
+    public float maxX = 7.5f;
+    float moveHorizontal;
 
     private void Awake()
     {
@@ -20,17 +21,11 @@ public class BoxMove : MonoBehaviour
 
     private void Move()
     {
-        moveVelocity = Vector3.zero;
-        
-        if(Input.GetAxisRaw("Horizontal") < 0)
+        moveHorizontal =  Input.GetAxisRaw("Horizontal");
+        if((moveHorizontal > 0 && transform.position.x < maxX) || 
+          (moveHorizontal < 0 && transform.position.x > -maxX))
         {
-            moveVelocity = Vector3.left;
+            transform.position += Vector3.right * moveHorizontal * moveSpeed * Time.deltaTime;
         }
-        else if(Input.GetAxisRaw("Horizontal") > 0)
-        {
-            moveVelocity = Vector3.right;
-        }
-
-        transform.position += moveVelocity * moveSpeed * Time.deltaTime;
     }
 }
